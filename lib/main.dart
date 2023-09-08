@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vehicle_rental_management_portal/pages/home/home_page.dart';
+import 'package:vehicle_rental_management_portal/pages/login/login.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: HomePage(),
+      home: LoginPage(),
     );
   }
 }

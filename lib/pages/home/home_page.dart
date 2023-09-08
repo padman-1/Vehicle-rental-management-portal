@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:vehicle_rental_management_portal/pages/home/tabs/home_tab.dart';
+import 'package:vehicle_rental_management_portal/pages/home/tabs/upload_tab.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({super.key});
@@ -62,24 +64,6 @@ class ReviewTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Text('Review'),
-    );
-  }
-}
-
-class UploadTab extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Upload'),
-    );
-  }
-}
-
-class HomeTab extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('data'),
     );
   }
 }
