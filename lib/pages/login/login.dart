@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vehicle_rental_management_portal/pages/home/home_page.dart';
 
 import '../../widgets/custom_textfield.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -44,7 +45,9 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(
                 width: double.infinity,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(),));
+                  },
                   child: const Text('Login'),
                 ),
               )
