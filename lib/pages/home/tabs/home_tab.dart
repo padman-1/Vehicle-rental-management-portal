@@ -13,7 +13,9 @@ class HomeTab extends StatelessWidget {
         itemBuilder: (_, i)=>GestureDetector(
           onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> const CarDetailsPage(),),),
           child: Container(
+            height: devSize.height/2,
             margin: const EdgeInsets.all(5),
+            // padding: const EdgeInsets.symmetric(horizontal: 50),
             decoration: BoxDecoration(
               // border: Border.all(),
               color: Colors.blueGrey.withOpacity(0.1),
@@ -31,9 +33,24 @@ class HomeTab extends StatelessWidget {
                   ),
                 ),
                 const Divider(),
-                const Text('Mercedez Benz ML350',),
-                const SizedBox(height: 10,),
-                const Text("@250/day")
+                Expanded(
+                  child: Column(
+                    children: [
+                      const Text('Mercedez Benz ML350',),
+                  const SizedBox(height: 10,),
+                  const Text("@250/day"),
+                  Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.red,
+                    ),
+                    child: const Text('Booked',
+                    ),
+                  )
+                    ],
+                  ),
+                ),
+                
+                //  SizedBox(width: 5)
               ],
             ),
           ),

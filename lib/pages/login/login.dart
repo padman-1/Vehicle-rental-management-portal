@@ -46,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
                 width: double.infinity,
                 child: TextButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(),));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(),),);
                   },
                   child: const Text('Login'),
                 ),
