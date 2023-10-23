@@ -42,8 +42,8 @@ class _HomePageState extends State<HomePage> {
                 label: Text('Uploads'),
               ),
               NavigationRailDestination(
-                icon: Icon(Icons.upload),
-                label: Text('Uploads'),
+                icon: Icon(Icons.settings),
+                label: Text('Review'),
               ),
             ],
           ),
