@@ -37,6 +37,7 @@ class _CarSpecsFormState extends State<CarSpecsForm> {
 
   @override
   Widget build(BuildContext context) {
+    final devSize = MediaQuery.of(context).size;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Form(child: Column(
@@ -71,6 +72,21 @@ class _CarSpecsFormState extends State<CarSpecsForm> {
             labeltext: 'Tank Capacity', 
             controller: _tankCapacityController, 
             ),
+            const SizedBox(
+              height: 50,
+            ),
+
+            SizedBox(
+              width: devSize.width /3,
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.blue,
+                ),
+                child: Center(child: const Text('Upload')),
+              ),
+            )
 
         ],
       ),),
