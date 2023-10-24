@@ -39,6 +39,9 @@ class _GeneralCarInfoFormState extends State<GeneralCarInfoForm> {
   @override
   Widget build(BuildContext context) {
     final devSize = MediaQuery.of(context).size;
+    List<String> list = <String>["Mercedez Benz","Jaguar","Lexus","Chevrolet"];
+    String selectedValue = list.first;
+    
     return  SingleChildScrollView(
       child: Column(
         //mainAxisAlignment: MainAxisAlignment.center,
@@ -88,37 +91,58 @@ class _GeneralCarInfoFormState extends State<GeneralCarInfoForm> {
           const SizedBox(
             height: 20,
           ),
+          const Text('Please select car model'),
           Form(
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 20),
-              child: const Column(
+              child: Column(
                 children: [
+                  DropdownButton(
+                    value: selectedValue,
+                    // items: dropdownItems,
+                    onChanged: (String? value){
+                    setState(() {
+                      selectedValue = value!;
+                    });
+                  },
+                  items: list.map<DropdownMenuItem<String>>((value) {
+                    return DropdownMenuItem(
+                      value: value,
+                      child: Text(value),
+                      );
+                  }).toList(),
+                  
+                  ),
                    CarSpecsFormTextField(
-              icon: Icon(Icons.business), 
-              labeltext: 'Brand', 
-              hintext: 'Enter the car Brand',
-              // controller: _brandController,
-           ),
-            CarSpecsFormTextField(
-              icon: Icon(Icons.numbers), 
-              labeltext: 'Vehicle Number', 
-              hintext: 'Enter the Vehicle Number',
-           ),
-            CarSpecsFormTextField(
-              icon: Icon(Icons.health_and_safety), 
-              labeltext: 'Insurance Number', 
-              hintext: 'Enter the Insurance Number',
-           ),
-            CarSpecsFormTextField(
-              icon: Icon(Icons.numbers_rounded), 
-              labeltext: 'Chassis Number', 
-              hintext: 'Enter the Chassis Number',
-           ),
-            CarSpecsFormTextField(
-              icon: Icon(Icons.attach_money), 
-              labeltext: 'Price', 
-              hintext: 'Enter the amount',
-           ),
+                    icon: Icon(Icons.business), 
+                    labeltext: 'Brand', 
+                    hintext: 'Enter the car Brand',
+                    controller: _brandController,
+                ),
+                  CarSpecsFormTextField(
+                    icon: Icon(Icons.numbers), 
+                    labeltext: 'Vehicle Number', 
+                    hintext: 'Enter the Vehicle Number',
+                    controller: _vehicleNumberController,
+                ),
+                  CarSpecsFormTextField(
+                    icon: Icon(Icons.health_and_safety), 
+                    labeltext: 'Insurance Number', 
+                    hintext: 'Enter the Insurance Number',
+                    controller: _insuranceNumberController,
+                ),
+                  CarSpecsFormTextField(
+                    icon: Icon(Icons.numbers_rounded), 
+                    labeltext: 'Chassis Number', 
+                    hintext: 'Enter the Chassis Number',
+                    controller: _vinNumberController,
+                ),
+                  CarSpecsFormTextField(
+                    icon: Icon(Icons.attach_money), 
+                    labeltext: 'Price', 
+                    hintext: 'Enter the amount',
+                    controller: _amountController,
+                ),
                 ],
               ),
             )
@@ -145,4 +169,13 @@ class _GeneralCarInfoFormState extends State<GeneralCarInfoForm> {
       ),
     );
   }
+}
+List<DropdownMenuItem<String>> get dropdownItems{
+  List<DropdownMenuItem<String>> menuItems = const [
+    DropdownMenuItem(child: Text("Mercedez Benz"),value: "Mercedez Benz"),
+    DropdownMenuItem(child: Text("Jaguar"),value: "Jaguar"),
+    DropdownMenuItem(child: Text("Lexus"),value: "Lexus"),
+    DropdownMenuItem(child: Text("Honda"),value: "Honda"),
+  ];
+  return menuItems;
 }
