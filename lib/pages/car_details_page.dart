@@ -1,4 +1,7 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:vehicle_rental_management_portal/pages/home/tabs/upload_tab.dart';
 
 class CarDetailsPage extends StatelessWidget {
   const CarDetailsPage({super.key});
@@ -9,6 +12,32 @@ class CarDetailsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Car Details'),
+        actions: [
+          Container(
+            // padding: const EdgeInsets.symmetric(horizontal: 50),
+            margin: const EdgeInsets.only(right: 10),
+            child: SizedBox(
+              // width: 30,
+              child: TextButton(
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                ),
+                onPressed: (){
+                  Navigator.push(
+                    context, MaterialPageRoute(builder: (context)=> UploadTab()
+                    ),
+                  );
+                }, 
+              child: const Text(
+                'Edit',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              ),
+            ),
+          )
+        ],
         centerTitle: true,
       ),
       body: SingleChildScrollView(
