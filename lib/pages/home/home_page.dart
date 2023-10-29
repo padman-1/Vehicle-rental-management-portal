@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vehicle_rental_management_portal/helpers/responsive_helpers.dart';
 import 'package:vehicle_rental_management_portal/pages/home/tabs/home_tab.dart';
 import 'package:vehicle_rental_management_portal/pages/home/tabs/upload_tab.dart';
 
@@ -23,8 +24,11 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: Row(
         children: [
+          if (ResponsiveWidget.isSmallScreen(context))
+              const SizedBox.shrink()
+            else
           NavigationRail(
-            extended: true,
+            extended: ResponsiveWidget.isLargeScreen(context),
             groupAlignment: -1,
             selectedIndex: _selectedIndex,
             onDestinationSelected: (value) {
