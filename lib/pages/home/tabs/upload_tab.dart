@@ -16,7 +16,7 @@ class UploadTab extends StatelessWidget {
           centerTitle: true,
           // backgroundColor: Colors.grey[700],
           // elevation: 0,
-          leading: Text(''),
+          // leading: Text(''),
         ),
         body: Column(
           children: <Widget>[
