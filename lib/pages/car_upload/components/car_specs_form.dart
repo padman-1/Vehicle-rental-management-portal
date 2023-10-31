@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vehicle_rental_management_portal/widgets/car_specs_form_textfield.dart';
+import 'package:vehicle_rental_management_portal/widgets/default_paddings.dart';
 
 class CarSpecsForm extends StatefulWidget {
   const CarSpecsForm({super.key});
@@ -38,58 +39,59 @@ class _CarSpecsFormState extends State<CarSpecsForm> {
   @override
   Widget build(BuildContext context) {
     final devSize = MediaQuery.of(context).size;
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: Form(child: Column(
-        children: [
-          CarSpecsFormTextField(
-            icon: Icon(Icons.speed), 
-            hintext: 'Enter the Car Speed', 
-            labeltext: 'Car Speed', 
-            controller: _carSpeedController, 
-            ),
-          CarSpecsFormTextField(
-            icon: Icon(Icons.escalator), 
-            labeltext: 'Engine Type', 
-            hintext: 'Enter the Engine Type',
-            controller: _engineTypeController,
-            ),
-          CarSpecsFormTextField(
-            icon: Icon(Icons.location_city_outlined), 
-            labeltext: 'Mileage', 
-            hintext: 'Enter the Mileage', 
-            controller: _milleageController,
-            ),
-          CarSpecsFormTextField(
-            icon: Icon(Icons.location_on), 
-            hintext: 'Enter the Horse power', 
-            labeltext: 'Horse power', 
-            controller: _horsePowerController, 
-            ),
-            CarSpecsFormTextField(
-            icon: Icon(Icons.local_gas_station), 
-            hintext: 'Enter the Tank Capacity', 
-            labeltext: 'Tank Capacity', 
-            controller: _tankCapacityController, 
-            ),
-            const SizedBox(
-              height: 50,
-            ),
-
-            SizedBox(
-              width: devSize.width /3,
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.blue,
-                ),
-                child: Center(child: const Text('Upload')),
-              ),
-            )
-
-        ],
-      ),),
+    return SingleChildScrollView(
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 500),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Form(child: Column(
+              children: [
+                CarSpecsFormTextField(
+                  hintext: 'Enter the Car Speed',                
+                  controller: _carSpeedController, 
+                  ),
+                  const DefaultTextfieldPadding(),
+                CarSpecsFormTextField(
+                  hintext: 'Enter the Engine Type',
+                  controller: _engineTypeController,
+                  ),
+                  const DefaultTextfieldPadding(),
+                CarSpecsFormTextField(
+                  hintext: 'Enter the Mileage', 
+                  controller: _milleageController,
+                  ),
+                  const DefaultTextfieldPadding(),
+                CarSpecsFormTextField(          
+                  hintext: 'Enter the Horse power',            
+                  controller: _horsePowerController, 
+                  ),
+                  const DefaultTextfieldPadding(),
+                  CarSpecsFormTextField(
+                  hintext: 'Enter the Tank Capacity', 
+                  controller: _tankCapacityController, 
+                  ),
+                  const SizedBox(
+                    height: 70,
+                  ),
+            
+                  SizedBox(
+                    width: devSize.width /3,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.blue,
+                      ),
+                      child: Center(child: const Text('Upload')),
+                    ),
+                  )
+            
+              ],
+            ),),
+          ),
+        ),
+      ),
     );
   }
 }
