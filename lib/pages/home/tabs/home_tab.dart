@@ -56,42 +56,38 @@ class _HomeTabState extends State<HomeTab> {
                          title: Text('Mercedez Benz ML350'),
                          subtitle: Text('@250/day'),
                          trailing: SizedBox(
-                          width: 100,
+                          width: 120,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                             IconButton(onPressed: (){}, icon: const Icon(Icons.delete, color: Colors.red,)),
-                             IconButton(onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=> UploadTab()));
-                              //  DropdownButton(
-                              //     // hint: Text(selectedValue),
-                              //     value: selectedValue,
-                              //     // items: dropdownItems,
-                              //   items: list.map<DropdownMenuItem<String>>((value) {
-                              //     return DropdownMenuItem(
-                              //       value: value,
-                              //       child: Text(value),
-                              //       );
-                              //   }).toList(),
-                              //   onChanged: (String? value){
-                              //     setState(() {
-                              //       selectedValue = value!;
-                              //     });
-                              //   },
-                                
-                              //   );
-                              //  DropdownButton(
-                              //   value: selectedValue,
-                              //   items: list.map((value) {
-                              //     return DropdownMenuItem(child: Text(value), value: value,);
-                              //   } ).toList(), 
-                              //  onChanged: (value){
-                              //   setState(() {
-                              //     selectedValue = value.toString();
-                              //   });
-                              //  });
-                             }, 
-                             icon: const Icon(Icons.edit))
+                             Container(
+                              padding: EdgeInsets.symmetric(horizontal: 5, vertical: 7),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.red
+                              ),
+                              child: Text('Checked out'),
+                             ),
+                              // Navigator.push(context, MaterialPageRoute(builder: (context)=> UploadTab()));
+                              PopupMenuButton(
+                                icon: const Icon(Icons.more_vert_outlined),
+                                itemBuilder: (BuildContext context)=> [
+                                  const PopupMenuItem(
+                                    value: 'Status',
+                                    child: Text('Status'), 
+                                  ),
+                                  PopupMenuItem(
+                                    value: 'Edit Car',
+                                    child: Text('Edit Car'), 
+                                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=>UploadTab(),),),
+                                  ),
+                                  const PopupMenuItem(
+                                    value: 'Delete',
+                                    child: Text('Delete'), 
+                                  )
+                                ]
+                              )
+                            
                             ],
                             )
                           ),
@@ -159,3 +155,18 @@ class _HomeTabState extends State<HomeTab> {
     );
   }
 }
+
+List<PopupMenuEntry> poplist = <PopupMenuEntry>[
+  const PopupMenuItem(
+    value: 'Status',
+    child: Text('Status'), 
+  ),
+ const PopupMenuItem(
+    value: 'Edit Car',
+    child: Text('Edit Car'), 
+  ),
+  const PopupMenuItem(
+    value: 'Delete',
+    child: Text('Delete'), 
+  )
+];
