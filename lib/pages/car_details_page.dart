@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:vehicle_rental_management_portal/pages/home/tabs/upload_tab.dart';
 
@@ -22,18 +20,18 @@ class CarDetailsPage extends StatelessWidget {
                 style: TextButton.styleFrom(
                   backgroundColor: Colors.blue,
                 ),
-                onPressed: (){
+                onPressed: () {
                   Navigator.push(
-                    context, MaterialPageRoute(builder: (context)=> UploadTab()
-                    ),
+                    context,
+                    MaterialPageRoute(builder: (context) => UploadTab()),
                   );
-                }, 
-              child: const Text(
-                'Edit',
-                style: TextStyle(
-                  color: Colors.white,
+                },
+                child: const Text(
+                  'Edit',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
                 ),
-              ),
               ),
             ),
           )
@@ -52,29 +50,32 @@ class CarDetailsPage extends StatelessWidget {
                     height: devSize.height / 2,
                     width: devSize.width,
                     decoration: const BoxDecoration(
-                      image: DecorationImage(image: AssetImage('assets/images/car1.png',
-                      ),
-                      fit: BoxFit.contain,
+                      image: DecorationImage(
+                        image: AssetImage(
+                          'assets/images/car1.png',
+                        ),
+                        fit: BoxFit.contain,
                       ),
                       color: Colors.blueGrey,
                     ),
                     // color: Colors.amber,
                     // child: Image(image: AssetImage('assets/images/car1.png'),),
                   ),
-                 const SizedBox(height: 20,),
-
+                  const SizedBox(
+                    height: 20,
+                  ),
                   SizedBox(
-                    height: devSize.height/2,
+                    height: devSize.height / 2,
                     width: devSize.width,
                     child: ListView.builder(
-                      itemCount: 8,
-                      itemBuilder: (context, index){
-                        return const ListTile(
-                          leading: Icon(Icons.location_city),
-                          title: Text('Milleage'),
-                          trailing: Text('250km'),
-                        );
-                      }),
+                        itemCount: 8,
+                        itemBuilder: (context, index) {
+                          return const ListTile(
+                            leading: Icon(Icons.location_city),
+                            title: Text('Milleage'),
+                            trailing: Text('250km'),
+                          );
+                        }),
                   )
                 ],
               ),
