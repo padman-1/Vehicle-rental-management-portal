@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vehicle_rental_management_portal/data/repositories/auth_repository.dart';
-import 'package:vehicle_rental_management_portal/pages/home/home_page.dart';
+import 'package:vehicle_rental_management_portal/pages/home/view/home_page.dart';
 import 'package:vehicle_rental_management_portal/pages/login/cubit/login_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vehicle_rental_management_portal/utils/dialog_utils.dart';

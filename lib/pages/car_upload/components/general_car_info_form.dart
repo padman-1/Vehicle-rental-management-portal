@@ -58,7 +58,6 @@ class _GeneralCarInfoFormState extends State<GeneralCarInfoForm> {
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 500),
             child: Column(
-              //mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
                   'Please upload a picture of the car ',
@@ -149,17 +148,6 @@ class _GeneralCarInfoFormState extends State<GeneralCarInfoForm> {
                               value: value, label: value);
                         }).toList(),
                       ),
-                      // DropdownButton<String>(
-                      //   value: selectedValue,
-                      //   onChanged: (String? value) {
-                      //     setState(() {
-                      //       selectedValue = value!;
-                      //     });
-                      //   },
-                      //   items: [
-                      //     DropdownMenuItem(child: Text('data'), value: 'data',)
-                      //   ],
-                      // ),
                       const DefaultTextfieldPadding(),
                       CarSpecsFormTextField(
                         hintext: 'Enter the car Brand',
@@ -199,7 +187,7 @@ class _GeneralCarInfoFormState extends State<GeneralCarInfoForm> {
                       borderRadius: BorderRadius.circular(20),
                       color: Colors.blue,
                     ),
-                    child: Center(child: const Text('Save')),
+                    child: const Center(child: Text('Save')),
                   ),
                 ),
                 const SizedBox(
