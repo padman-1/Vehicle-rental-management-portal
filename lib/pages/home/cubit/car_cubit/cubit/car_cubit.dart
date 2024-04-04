@@ -13,9 +13,22 @@ class CarCubit extends Cubit<CarState> {
       : _carRepository = carRepository,
         super(CarInitial()) {
     emit(CarLoading());
-    _subscription = carRepository.getCar().listen((event) {});
+    _subscription = carRepository.getCar().listen((event) {
+      emit(CarSuccess(
+          cars: event.docs
+              .map((e) => Car.fromMap(e.data as Map<String, dynamic>))
+              .toList()));
+    }, onError: (err) {
+      emit(CarError(error: err.toString()));
+    });
   }
 
   final CarRepository _carRepository;
   late StreamSubscription<QuerySnapshot>? _subscription;
+
+  @override
+  Future<void> close() {
+    _subscription?.cancel();
+    return super.close();
+  }
 }
