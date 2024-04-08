@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vehicle_rental_management_portal/data/repositories/car_repository.dart';
 import 'package:vehicle_rental_management_portal/pages/car_details_page.dart';
-import 'package:vehicle_rental_management_portal/pages/home/cubit/car_cubit/cubit/car_cubit.dart';
+import 'package:vehicle_rental_management_portal/pages/home/cubit/car_cubit/car_cubit.dart';
 import 'package:vehicle_rental_management_portal/pages/home/tabs/upload_tab.dart';
 
 class HomeTab extends StatefulWidget {
@@ -46,6 +46,12 @@ class _HomeTabState extends State<HomeTab> {
                 ),
                 BlocBuilder<CarCubit, CarState>(
                   builder: (context, state) {
+                    print(state);
+                    if (state is CarLoading) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
                     if (state is CarSuccess) {
                       if (state.cars.isEmpty) {
                         return const Center(
@@ -77,10 +83,14 @@ class _HomeTabState extends State<HomeTab> {
                                     width: 1,
                                   ))),
                                   child: ListTile(
-                                    leading:
-                                        Image(image: NetworkImage(car.imgurl)),
-                                    title: Text(car.brand),
-                                    subtitle: Text(car.amount),
+                                    leading: Image.network(car.imgurl),
+                                    title: Text(car.name),
+                                    subtitle: Row(
+                                      children: [
+                                        Text(car.currency),
+                                        Text(car.amount)
+                                      ],
+                                    ),
                                     trailing: SizedBox(
                                         width: 120,
                                         child: Row(
