@@ -36,4 +36,8 @@ class AuthRepository {
     }
     return null;
   }
+
+  Stream<User?> get getUser {
+    return firebaseAuth.authStateChanges();
+  }
 }

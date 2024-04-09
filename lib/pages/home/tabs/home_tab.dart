@@ -72,7 +72,9 @@ class _HomeTabState extends State<HomeTab> {
                                           builder: (
                                         context,
                                       ) =>
-                                              const CarDetailsPage()));
+                                              CarDetailsPage(
+                                                car: car,
+                                              )));
                                 },
                                 child: Container(
                                   margin: const EdgeInsets.symmetric(

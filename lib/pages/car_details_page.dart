@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
+// ignore: unused_import
+import 'package:vehicle_rental_management_portal/data/models/car.dart';
 import 'package:vehicle_rental_management_portal/pages/home/tabs/upload_tab.dart';
 
-class CarDetailsPage extends StatelessWidget {
-  const CarDetailsPage({super.key});
+class CarDetailsPage extends StatefulWidget {
+  const CarDetailsPage({super.key, required this.car});
 
+  final Car car;
+
+  @override
+  State<CarDetailsPage> createState() => _CarDetailsPageState();
+}
+
+class _CarDetailsPageState extends State<CarDetailsPage> {
   @override
   Widget build(BuildContext context) {
     final devSize = MediaQuery.of(context).size;
@@ -48,18 +57,18 @@ class CarDetailsPage extends StatelessWidget {
                 children: [
                   Container(
                     height: devSize.height / 2,
-                    width: devSize.width,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(
-                          'assets/images/car1.png',
-                        ),
-                        fit: BoxFit.contain,
-                      ),
-                      color: Colors.blueGrey,
-                    ),
-                    // color: Colors.amber,
-                    // child: Image(image: AssetImage('assets/images/car1.png'),),
+                    width: devSize.width / 2,
+                    // decoration: BoxDecoration(
+                    //   image: DecorationImage(image: Image.network(src)),
+                    //   // image: DecorationImage(
+                    //   //   image: AssetImage(
+                    //   //     widget.Ca,
+                    //   //   ),
+                    //   //   fit: BoxFit.contain,
+                    //   // ),
+                    //   color: Colors.blueGrey,
+                    // ),
+                    child: Image.network(widget.car.imgurl),
                   ),
                   const SizedBox(
                     height: 20,
