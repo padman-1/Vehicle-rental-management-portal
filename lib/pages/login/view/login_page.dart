@@ -29,7 +29,6 @@ class _LoginPageState extends State<LoginPage> {
               showErrorDialog(context: context, message: state.error);
             }
             if (state is LoginSuccessState) {
-              context.read<AuthRepository>().getUser;
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => HomePage()));
             }
