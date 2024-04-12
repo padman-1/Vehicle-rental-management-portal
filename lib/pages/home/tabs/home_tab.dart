@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vehicle_rental_management_portal/data/repositories/car_repository.dart';
 import 'package:vehicle_rental_management_portal/pages/car_details_page.dart';
 import 'package:vehicle_rental_management_portal/pages/home/cubit/car_cubit/car_cubit.dart';
 import 'package:vehicle_rental_management_portal/pages/home/tabs/upload_tab.dart';
+import 'package:vehicle_rental_management_portal/widgets/search.dart';
 
 class HomeTab extends StatefulWidget {
   @override
@@ -25,23 +27,27 @@ class _HomeTabState extends State<HomeTab> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Container(
-                  margin: const EdgeInsets.only(top: 10, bottom: 5),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  height: 40,
-                  width: devSize.width / 2,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: Colors.grey[200],
-                  ),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Icon(Icons.search),
-                      Text('Search Cars'),
-                      Icon(Icons.settings),
-                    ],
+                GestureDetector(
+                  onTap: () =>
+                      showSearch(delegate: SearchCars(), context: context),
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 10, bottom: 5),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                    height: 40,
+                    width: devSize.width / 2,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: Colors.grey[200],
+                    ),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Icon(Icons.search),
+                        Text('Search Cars'),
+                        Icon(Icons.settings),
+                      ],
+                    ),
                   ),
                 ),
                 BlocBuilder<CarCubit, CarState>(
