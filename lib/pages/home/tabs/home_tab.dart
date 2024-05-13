@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:vehicle_rental_management_portal/data/models/car_status.dart';
 import 'package:vehicle_rental_management_portal/data/repositories/car_repository.dart';
 import 'package:vehicle_rental_management_portal/pages/car_details_page.dart';
 import 'package:vehicle_rental_management_portal/pages/home/cubit/car_cubit/car_cubit.dart';
@@ -54,7 +55,7 @@ class _HomeTabState extends State<HomeTab> {
                   builder: (context, state) {
                     print(state);
                     if (state is CarLoading) {
-                      return Center(
+                      return const Center(
                         child: CircularProgressIndicator(),
                       );
                     }
@@ -118,31 +119,13 @@ class _HomeTabState extends State<HomeTab> {
                                             PopupMenuButton(
                                                 icon: const Icon(
                                                     Icons.more_vert_outlined),
-                                                itemBuilder: (BuildContext
-                                                        context) =>
-                                                    [
-                                                      const PopupMenuItem(
-                                                        value: 'Status',
-                                                        child: Text('Status'),
-                                                      ),
-                                                      PopupMenuItem(
-                                                        value: 'Edit Car',
-                                                        child: Text('Edit Car'),
-                                                        onTap: () =>
-                                                            Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                            builder:
-                                                                (context) =>
-                                                                    UploadTab(),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      const PopupMenuItem(
-                                                        value: 'Delete',
-                                                        child: Text('Delete'),
-                                                      )
-                                                    ])
+                                                itemBuilder: (context) {
+                                                  return CarStatus.values
+                                                      .map((e) => PopupMenuItem(
+                                                          value: e,
+                                                          child: Text(e.name)))
+                                                      .toList();
+                                                })
                                           ],
                                         )),
                                   ),

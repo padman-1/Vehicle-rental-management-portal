@@ -14,8 +14,10 @@ class GeneralCarInfoForm extends StatefulWidget {
   State<GeneralCarInfoForm> createState() => _GeneralCarInfoFormState();
 }
 
-class _GeneralCarInfoFormState extends State<GeneralCarInfoForm> {
+class _GeneralCarInfoFormState extends State<GeneralCarInfoForm>
+    with AutomaticKeepAliveClientMixin {
   String _image = '';
+  final _formKey = GlobalKey<FormState>();
   late TextEditingController _brandController;
   late TextEditingController _vehicleNumberController;
   late TextEditingController _insuranceNumberController;
@@ -27,6 +29,7 @@ class _GeneralCarInfoFormState extends State<GeneralCarInfoForm> {
   @override
   void initState() {
     super.initState();
+
     _brandController = TextEditingController();
     _vehicleNumberController = TextEditingController();
     _insuranceNumberController = TextEditingController();
@@ -131,51 +134,52 @@ class _GeneralCarInfoFormState extends State<GeneralCarInfoForm> {
                 ),
                 const Text('Please select car model'),
                 Form(
+                    key: _formKey,
                     child: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    children: [
-                      DropdownMenu(
-                        initialSelection: list.first,
-                        onSelected: (String? value) {
-                          setState(() {
-                            selectedValue = value!;
-                          });
-                        },
-                        dropdownMenuEntries:
-                            list.map<DropdownMenuEntry<String>>((String value) {
-                          return DropdownMenuEntry<String>(
-                              value: value, label: value);
-                        }).toList(),
+                      margin: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Column(
+                        children: [
+                          DropdownMenu(
+                            initialSelection: list.first,
+                            onSelected: (String? value) {
+                              setState(() {
+                                selectedValue = value!;
+                              });
+                            },
+                            dropdownMenuEntries: list
+                                .map<DropdownMenuEntry<String>>((String value) {
+                              return DropdownMenuEntry<String>(
+                                  value: value, label: value);
+                            }).toList(),
+                          ),
+                          const DefaultTextfieldPadding(),
+                          CarSpecsFormTextField(
+                            hintext: 'Enter the car Brand',
+                            controller: _brandController,
+                          ),
+                          const DefaultTextfieldPadding(),
+                          CarSpecsFormTextField(
+                            hintext: 'Enter the Vehicle Number',
+                            controller: _vehicleNumberController,
+                          ),
+                          const DefaultTextfieldPadding(),
+                          CarSpecsFormTextField(
+                            hintext: 'Enter the Insurance Number',
+                            controller: _insuranceNumberController,
+                          ),
+                          const DefaultTextfieldPadding(),
+                          CarSpecsFormTextField(
+                            hintext: 'Enter the Chassis Number',
+                            controller: _vinNumberController,
+                          ),
+                          const DefaultTextfieldPadding(),
+                          CarSpecsFormTextField(
+                            hintext: 'Enter the amount',
+                            controller: _amountController,
+                          ),
+                        ],
                       ),
-                      const DefaultTextfieldPadding(),
-                      CarSpecsFormTextField(
-                        hintext: 'Enter the car Brand',
-                        controller: _brandController,
-                      ),
-                      const DefaultTextfieldPadding(),
-                      CarSpecsFormTextField(
-                        hintext: 'Enter the Vehicle Number',
-                        controller: _vehicleNumberController,
-                      ),
-                      const DefaultTextfieldPadding(),
-                      CarSpecsFormTextField(
-                        hintext: 'Enter the Insurance Number',
-                        controller: _insuranceNumberController,
-                      ),
-                      const DefaultTextfieldPadding(),
-                      CarSpecsFormTextField(
-                        hintext: 'Enter the Chassis Number',
-                        controller: _vinNumberController,
-                      ),
-                      const DefaultTextfieldPadding(),
-                      CarSpecsFormTextField(
-                        hintext: 'Enter the amount',
-                        controller: _amountController,
-                      ),
-                    ],
-                  ),
-                )),
+                    )),
                 const SizedBox(
                   height: 40,
                 ),
@@ -200,6 +204,10 @@ class _GeneralCarInfoFormState extends State<GeneralCarInfoForm> {
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
 
 List<DropdownMenuItem<String>> get dropdownItems {

@@ -74,18 +74,37 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
                     height: 20,
                   ),
                   SizedBox(
-                    height: devSize.height / 2,
-                    width: devSize.width,
-                    child: ListView.builder(
-                        itemCount: 8,
-                        itemBuilder: (context, index) {
-                          return const ListTile(
+                      height: devSize.height / 2,
+                      width: devSize.width,
+                      child: ListView(
+                        children: [
+                          ListTile(
                             leading: Icon(Icons.location_city),
-                            title: Text('Milleage'),
-                            trailing: Text('250km'),
-                          );
-                        }),
-                  )
+                            title: Text('Engine Type'),
+                            trailing: Text(widget.car.engineType),
+                          ),
+                          ListTile(
+                            leading: Icon(Icons.location_city),
+                            title: Text('power'),
+                            trailing: Text(widget.car.power),
+                          ),
+                          ListTile(
+                            leading: Icon(Icons.location_city),
+                            title: Text('Speed'),
+                            trailing: Text(widget.car.speed),
+                          ),
+                          ListTile(
+                            leading: Icon(Icons.location_city),
+                            title: Text('Tank Capacity'),
+                            trailing: Text(widget.car.tankCapacity),
+                          ),
+                          ListTile(
+                            leading: Icon(Icons.location_city),
+                            title: Text('Millage'),
+                            trailing: Text(widget.car.millage),
+                          ),
+                        ],
+                      ))
                 ],
               ),
             )

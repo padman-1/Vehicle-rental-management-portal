@@ -3,7 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:vehicle_rental_management_portal/pages/car_upload/components/car_specs_form.dart';
 import 'package:vehicle_rental_management_portal/pages/car_upload/components/general_car_info_form.dart';
 
-class UploadTab extends StatelessWidget {
+class UploadTab extends StatefulWidget {
+  @override
+  State<UploadTab> createState() => _UploadTabState();
+}
+
+class _UploadTabState extends State<UploadTab>
+    with SingleTickerProviderStateMixin {
+  late final _tabController = TabController(length: 2, vsync: this);
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -32,10 +39,11 @@ class UploadTab extends StatelessWidget {
 
             // the tab bar with two items
             SizedBox(
-            height: 50,
+              height: 50,
               child: AppBar(
-                bottom: const TabBar(
-                  tabs: [
+                bottom: TabBar(
+                  controller: _tabController,
+                  tabs: const [
                     Tab(
                       text: 'General Car Information',
                       //icon: Icon(Icons.directions_bike),
@@ -54,14 +62,15 @@ class UploadTab extends StatelessWidget {
               height: 10,
             ),
 
-          const  Expanded(
+            Expanded(
               child: TabBarView(
+                controller: _tabController,
                 children: [
                   // first tab bar view widget
-                   GeneralCarInfoForm(),
+                  GeneralCarInfoForm(),
 
                   // second tab bar viiew widget
-                   CarSpecsForm()
+                  CarSpecsForm()
                 ],
               ),
             ),
@@ -71,4 +80,3 @@ class UploadTab extends StatelessWidget {
     );
   }
 }
-

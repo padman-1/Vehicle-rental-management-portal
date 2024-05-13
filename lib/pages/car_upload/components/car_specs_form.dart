@@ -10,14 +10,15 @@ class CarSpecsForm extends StatefulWidget {
   State<CarSpecsForm> createState() => _CarSpecsFormState();
 }
 
-class _CarSpecsFormState extends State<CarSpecsForm> {
+class _CarSpecsFormState extends State<CarSpecsForm>
+    with AutomaticKeepAliveClientMixin {
   late TextEditingController _carSpeedController;
   late TextEditingController _engineTypeController;
   late TextEditingController _horsePowerController;
   late TextEditingController _engineCapacityController;
   late TextEditingController _fuelLevelController;
   late TextEditingController _tankCapacityController;
-   late TextEditingController _milleageController;
+  late TextEditingController _milleageController;
 
   @override
   void initState() {
@@ -31,7 +32,7 @@ class _CarSpecsFormState extends State<CarSpecsForm> {
     _tankCapacityController = TextEditingController();
   }
 
- @override
+  @override
   void dispose() {
     super.dispose();
   }
@@ -45,38 +46,38 @@ class _CarSpecsFormState extends State<CarSpecsForm> {
           constraints: const BoxConstraints(maxWidth: 500),
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Form(child: Column(
-              children: [
-                CarSpecsFormTextField(
-                  hintext: 'Enter the Car Speed',                
-                  controller: _carSpeedController, 
-                  ),
-                  const DefaultTextfieldPadding(),
-                CarSpecsFormTextField(
-                  hintext: 'Enter the Engine Type',
-                  controller: _engineTypeController,
-                  ),
-                  const DefaultTextfieldPadding(),
-                CarSpecsFormTextField(
-                  hintext: 'Enter the Mileage', 
-                  controller: _milleageController,
-                  ),
-                  const DefaultTextfieldPadding(),
-                CarSpecsFormTextField(          
-                  hintext: 'Enter the Horse power',            
-                  controller: _horsePowerController, 
+            child: Form(
+              child: Column(
+                children: [
+                  CarSpecsFormTextField(
+                    hintext: 'Enter the Car Speed',
+                    controller: _carSpeedController,
                   ),
                   const DefaultTextfieldPadding(),
                   CarSpecsFormTextField(
-                  hintext: 'Enter the Tank Capacity', 
-                  controller: _tankCapacityController, 
+                    hintext: 'Enter the Engine Type',
+                    controller: _engineTypeController,
+                  ),
+                  const DefaultTextfieldPadding(),
+                  CarSpecsFormTextField(
+                    hintext: 'Enter the Mileage',
+                    controller: _milleageController,
+                  ),
+                  const DefaultTextfieldPadding(),
+                  CarSpecsFormTextField(
+                    hintext: 'Enter the Horse power',
+                    controller: _horsePowerController,
+                  ),
+                  const DefaultTextfieldPadding(),
+                  CarSpecsFormTextField(
+                    hintext: 'Enter the Tank Capacity',
+                    controller: _tankCapacityController,
                   ),
                   const SizedBox(
                     height: 70,
                   ),
-            
                   SizedBox(
-                    width: devSize.width /3,
+                    width: devSize.width / 3,
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       decoration: BoxDecoration(
@@ -86,12 +87,16 @@ class _CarSpecsFormState extends State<CarSpecsForm> {
                       child: Center(child: const Text('Upload')),
                     ),
                   )
-            
-              ],
-            ),),
+                ],
+              ),
+            ),
           ),
         ),
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

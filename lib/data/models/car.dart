@@ -18,9 +18,9 @@ class Car extends Equatable {
       required this.imgurl,
       required this.descip,
       required this.city,
-      // required this.features,
       required this.amount,
       required this.currency,
+      required this.status,
       required this.dur});
 
   factory Car.fromMap(Map<String, dynamic> map) {
@@ -40,7 +40,8 @@ class Car extends Equatable {
         city: map['tankCapacity'].toString(),
         amount: map['amount'].toString(),
         currency: map['currency'].toString(),
-        dur: map['dur'].toString());
+        dur: map['dur'].toString(),
+        status: map['status'].toString());
   }
 
   String imgurl;
@@ -60,6 +61,7 @@ class Car extends Equatable {
   final String brand;
   final String vin;
   final String insurance;
+  final String status;
 
   @override
   // TODO: implement props
@@ -84,7 +86,19 @@ class Car extends Equatable {
 
     result
       ..addAll({'currency': currency})
-      ..addAll({'amount': amount});
+      ..addAll({'amount': amount})
+      ..addAll({'dur': dur})
+      ..addAll({'speed': speed})
+      ..addAll({'tankCapacity': tankCapacity})
+      ..addAll({'fuelLevel': fuelLevel})
+      ..addAll({' engineType': engineType})
+      ..addAll({'millage': millage})
+      ..addAll({'power': power})
+      ..addAll({'name': name})
+      ..addAll({'brand': brand})
+      ..addAll({'vin': vin})
+      ..addAll({'insurance': insurance})
+      ..addAll({'currency': currency});
 
     return result;
   }
