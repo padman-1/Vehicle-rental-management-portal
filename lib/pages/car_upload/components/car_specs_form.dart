@@ -1,10 +1,31 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:vehicle_rental_management_portal/widgets/car_specs_form_textfield.dart';
 import 'package:vehicle_rental_management_portal/widgets/default_paddings.dart';
 
 class CarSpecsForm extends StatefulWidget {
-  const CarSpecsForm({super.key});
+  late TextEditingController carSpeedController;
+  late TextEditingController engineTypeController;
+  late TextEditingController horsePowerController;
+  late TextEditingController engineCapacityController;
+  late TextEditingController fuelLevelController;
+  late TextEditingController tankCapacityController;
+  late TextEditingController milleageController;
+  Widget button;
+
+  CarSpecsForm(
+      {Key? key,
+      required this.button,
+      required this.carSpeedController,
+      required this.engineCapacityController,
+      required this.horsePowerController,
+      required this.engineTypeController,
+      required this.fuelLevelController,
+      required this.milleageController,
+      required this.tankCapacityController})
+      : super(key: key);
 
   @override
   State<CarSpecsForm> createState() => _CarSpecsFormState();
@@ -12,24 +33,17 @@ class CarSpecsForm extends StatefulWidget {
 
 class _CarSpecsFormState extends State<CarSpecsForm>
     with AutomaticKeepAliveClientMixin {
-  late TextEditingController _carSpeedController;
-  late TextEditingController _engineTypeController;
-  late TextEditingController _horsePowerController;
-  late TextEditingController _engineCapacityController;
-  late TextEditingController _fuelLevelController;
-  late TextEditingController _tankCapacityController;
-  late TextEditingController _milleageController;
+  // late TextEditingController _carSpeedController;
+  // late TextEditingController _engineTypeController;
+  // late TextEditingController _horsePowerController;
+  // late TextEditingController _engineCapacityController;
+  // late TextEditingController _fuelLevelController;
+  // late TextEditingController _tankCapacityController;
+  // late TextEditingController _milleageController;
 
   @override
   void initState() {
     super.initState();
-    _carSpeedController = TextEditingController();
-    _engineCapacityController = TextEditingController();
-    _horsePowerController = TextEditingController();
-    _engineTypeController = TextEditingController();
-    _fuelLevelController = TextEditingController();
-    _milleageController = TextEditingController();
-    _tankCapacityController = TextEditingController();
   }
 
   @override
@@ -51,41 +65,34 @@ class _CarSpecsFormState extends State<CarSpecsForm>
                 children: [
                   CarSpecsFormTextField(
                     hintext: 'Enter the Car Speed',
-                    controller: _carSpeedController,
+                    controller: widget.carSpeedController,
                   ),
                   const DefaultTextfieldPadding(),
                   CarSpecsFormTextField(
                     hintext: 'Enter the Engine Type',
-                    controller: _engineTypeController,
+                    controller: widget.engineTypeController,
                   ),
                   const DefaultTextfieldPadding(),
                   CarSpecsFormTextField(
                     hintext: 'Enter the Mileage',
-                    controller: _milleageController,
+                    controller: widget.milleageController,
                   ),
                   const DefaultTextfieldPadding(),
                   CarSpecsFormTextField(
                     hintext: 'Enter the Horse power',
-                    controller: _horsePowerController,
+                    controller: widget.horsePowerController,
                   ),
                   const DefaultTextfieldPadding(),
                   CarSpecsFormTextField(
                     hintext: 'Enter the Tank Capacity',
-                    controller: _tankCapacityController,
+                    controller: widget.tankCapacityController,
                   ),
                   const SizedBox(
                     height: 70,
                   ),
                   SizedBox(
-                    width: devSize.width / 3,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.blue,
-                      ),
-                      child: Center(child: const Text('Upload')),
-                    ),
+                    width: devSize.width / 4,
+                    child: widget.button,
                   )
                 ],
               ),

@@ -1,42 +1,52 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:image_picker/image_picker.dart';
+
 import 'package:vehicle_rental_management_portal/widgets/car_specs_form_textfield.dart';
 import 'package:vehicle_rental_management_portal/widgets/default_paddings.dart';
 
 class GeneralCarInfoForm extends StatefulWidget {
-  const GeneralCarInfoForm({super.key});
+  late TextEditingController brandController;
+  late TextEditingController vehicleNumberController;
+  late TextEditingController insuranceNumberController;
+  late TextEditingController vinNumberController;
+  late TextEditingController amountController;
+  String selectedImage;
+  GeneralCarInfoForm({
+    Key? key,
+    required this.brandController,
+    required this.vehicleNumberController,
+    required this.insuranceNumberController,
+    required this.vinNumberController,
+    required this.amountController,
+    required this.selectedImage,
+  }) : super(key: key);
 
   @override
   State<GeneralCarInfoForm> createState() => _GeneralCarInfoFormState();
 }
 
+// final _tabController = TabController(length: 2, vsync: null, );
+
 class _GeneralCarInfoFormState extends State<GeneralCarInfoForm>
     with AutomaticKeepAliveClientMixin {
   String _image = '';
   final _formKey = GlobalKey<FormState>();
-  late TextEditingController _brandController;
-  late TextEditingController _vehicleNumberController;
-  late TextEditingController _insuranceNumberController;
-  late TextEditingController _vinNumberController;
-  late TextEditingController _amountController;
+  // late TextEditingController _brandController;
+  // late TextEditingController _vehicleNumberController;
+  // late TextEditingController _insuranceNumberController;
+  // late TextEditingController _vinNumberController;
+  // late TextEditingController _amountController;
   // late TextEditingController _tankCapacityController;
   //  late TextEditingController _milleageController;
 
   @override
   void initState() {
     super.initState();
-
-    _brandController = TextEditingController();
-    _vehicleNumberController = TextEditingController();
-    _insuranceNumberController = TextEditingController();
-    _vinNumberController = TextEditingController();
-    _amountController = TextEditingController();
-    //   _milleageController = TextEditingController();
-    //   _tankCapacityController = TextEditingController();
   }
 
   @override
@@ -155,27 +165,27 @@ class _GeneralCarInfoFormState extends State<GeneralCarInfoForm>
                           const DefaultTextfieldPadding(),
                           CarSpecsFormTextField(
                             hintext: 'Enter the car Brand',
-                            controller: _brandController,
+                            controller: widget.brandController,
                           ),
                           const DefaultTextfieldPadding(),
                           CarSpecsFormTextField(
                             hintext: 'Enter the Vehicle Number',
-                            controller: _vehicleNumberController,
+                            controller: widget.vehicleNumberController,
                           ),
                           const DefaultTextfieldPadding(),
                           CarSpecsFormTextField(
                             hintext: 'Enter the Insurance Number',
-                            controller: _insuranceNumberController,
+                            controller: widget.insuranceNumberController,
                           ),
                           const DefaultTextfieldPadding(),
                           CarSpecsFormTextField(
                             hintext: 'Enter the Chassis Number',
-                            controller: _vinNumberController,
+                            controller: widget.vinNumberController,
                           ),
                           const DefaultTextfieldPadding(),
                           CarSpecsFormTextField(
                             hintext: 'Enter the amount',
-                            controller: _amountController,
+                            controller: widget.amountController,
                           ),
                         ],
                       ),
