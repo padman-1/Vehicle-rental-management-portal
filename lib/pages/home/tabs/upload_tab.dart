@@ -29,6 +29,23 @@ class _UploadTabState extends State<UploadTab>
   bool isloading = false;
 
   @override
+  void dispose() {
+    _amountController.dispose();
+    _brandController.dispose();
+    _carSpeedController.dispose();
+    _engineCapacityController.dispose();
+    _engineTypeController.dispose();
+    _vehicleNumberController.dispose();
+    _insuranceNumberController.dispose();
+    _vinNumberController.dispose();
+    _horsePowerController.dispose();
+    _fuelLevelController.dispose();
+    _milleageController.dispose();
+    _tankCapacityController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final devSize = MediaQuery.of(context).size;
     return DefaultTabController(
