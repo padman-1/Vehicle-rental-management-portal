@@ -25,32 +25,32 @@ class _HomePageState extends State<HomePage> {
       body: Row(
         children: [
           if (ResponsiveWidget.isSmallScreen(context))
-              const SizedBox.shrink()
-            else
-          NavigationRail(
-            extended: ResponsiveWidget.isLargeScreen(context),
-            groupAlignment: -1,
-            selectedIndex: _selectedIndex,
-            onDestinationSelected: (value) {
-              setState(() {
-                _selectedIndex = value;
-              });
-            },
-            destinations: const [
-              NavigationRailDestination(
-                icon: Icon(Icons.dashboard),
-                label: Text('Dashboard'),
-              ),
-              NavigationRailDestination(
-                icon: Icon(Icons.upload),
-                label: Text('Uploads'),
-              ),
-              NavigationRailDestination(
-                icon: Icon(Icons.settings),
-                label: Text('Review'),
-              ),
-            ],
-          ),
+            const SizedBox.shrink()
+          else
+            NavigationRail(
+              extended: ResponsiveWidget.isLargeScreen(context),
+              groupAlignment: -1,
+              selectedIndex: _selectedIndex,
+              onDestinationSelected: (value) {
+                setState(() {
+                  _selectedIndex = value;
+                });
+              },
+              destinations: const [
+                NavigationRailDestination(
+                  icon: Icon(Icons.dashboard),
+                  label: Text('Dashboard'),
+                ),
+                NavigationRailDestination(
+                  icon: Icon(Icons.upload),
+                  label: Text('Uploads'),
+                ),
+                NavigationRailDestination(
+                  icon: Icon(Icons.settings),
+                  label: Text('Review'),
+                ),
+              ],
+            ),
           const VerticalDivider(
             width: 1,
           ),

@@ -138,6 +138,7 @@ class _UploadTabState extends State<UploadTab>
                                   "currency": 'Ghc',
                                   // "dur": '1',
                                   "carid": docRef.id,
+                                  "status": "checkedIn",
                                   // "ownerid": loggeduser.uid
                                 });
                                 setState(() {

@@ -16,7 +16,8 @@ class CarCubit extends Cubit<CarState> {
     _subscription = carRepository.getCar().listen((event) {
       emit(CarSuccess(
           cars: event.docs
-              .map((e) => Car.fromMap(e.data() as Map<String, dynamic>))
+              .map((e) => Car.fromMap(
+                  {...e.data() as Map<String, dynamic>, 'carId': e.id}))
               .toList()));
     }, onError: (err) {
       emit(CarError(error: err.toString()));
