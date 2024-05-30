@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:core';
 
 import 'package:equatable/equatable.dart';
@@ -21,7 +22,8 @@ class Car extends Equatable {
       required this.amount,
       required this.currency,
       required this.status,
-      required this.dur});
+      required this.dur,
+      required this.carId});
 
   factory Car.fromMap(Map<String, dynamic> map) {
     return Car(
@@ -41,7 +43,8 @@ class Car extends Equatable {
         amount: map['amount'].toString(),
         currency: map['currency'].toString(),
         dur: map['dur'].toString(),
-        status: map['status'].toString());
+        status: map['status'].toString(),
+        carId: map['carId'].toString());
   }
 
   String imgurl;
@@ -62,6 +65,7 @@ class Car extends Equatable {
   final String vin;
   final String insurance;
   final String status;
+  final String carId;
 
   @override
   // TODO: implement props
@@ -78,7 +82,8 @@ class Car extends Equatable {
         name,
         brand,
         vin,
-        insurance
+        insurance,
+        carId,
       ];
 
   Map<String, dynamic> toMap() {
@@ -98,8 +103,49 @@ class Car extends Equatable {
       ..addAll({'brand': brand})
       ..addAll({'vin': vin})
       ..addAll({'insurance': insurance})
+      ..addAll({'status': status})
+      ..addAll({'carId': carId})
       ..addAll({'currency': currency});
 
     return result;
+  }
+
+  Car copyWith({
+    String? currency,
+    String? amount,
+    String? dur,
+    String? speed,
+    String? tankCapacity,
+    String? fuelLevel,
+    String? engineType,
+    String? millage,
+    String? power,
+    String? name,
+    String? brand,
+    String? vin,
+    String? insurance,
+    String? status,
+    String? carId,
+  }) {
+    return Car(
+      currency: currency ?? this.currency,
+      amount: amount ?? this.amount,
+      dur: dur ?? this.dur,
+      speed: speed ?? this.speed,
+      tankCapacity: tankCapacity ?? this.tankCapacity,
+      fuelLevel: fuelLevel ?? this.fuelLevel,
+      engineType: engineType ?? this.engineType,
+      millage: millage ?? this.millage,
+      power: power ?? this.power,
+      name: name ?? this.name,
+      brand: brand ?? this.brand,
+      vin: vin ?? this.vin,
+      insurance: insurance ?? this.insurance,
+      status: status ?? this.status,
+      carId: carId ?? this.carId,
+      imgurl: '',
+      descip: '',
+      city: '',
+    );
   }
 }
