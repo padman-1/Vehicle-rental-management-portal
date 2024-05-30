@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:vehicle_rental_management_portal/data/models/car.dart';
 import 'package:vehicle_rental_management_portal/data/models/car_status.dart';
 import 'package:vehicle_rental_management_portal/data/repositories/car_repository.dart';
 import 'package:vehicle_rental_management_portal/pages/car_details_page.dart';
@@ -10,6 +12,10 @@ import 'package:vehicle_rental_management_portal/pages/home/tabs/upload_tab.dart
 import 'package:vehicle_rental_management_portal/widgets/search.dart';
 
 class HomeTab extends StatefulWidget {
+  const HomeTab({
+    super.key,
+  });
+  // final Car car;
   @override
   State<HomeTab> createState() => _HomeTabState();
 }
@@ -18,7 +24,8 @@ class _HomeTabState extends State<HomeTab> {
   @override
   Widget build(BuildContext context) {
     final devSize = MediaQuery.of(context).size;
-    List list = ["Booked", "checkedIn"];
+    // List list = ["Booked", "checkedIn"];
+    // final Car car;
     return RepositoryProvider(
       create: (context) => CarRepository(),
       child: BlocProvider(
@@ -106,26 +113,57 @@ class _HomeTabState extends State<HomeTab> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Container(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 5, vertical: 7),
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  color: Colors.red),
-                                              child: Text('Checked out'),
-                                            ),
+                                            car.status == "checkedOut"
+                                                ? Container(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 5,
+                                                            vertical: 7),
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color: Colors.red),
+                                                    child: Text(car.status),
+                                                  )
+                                                : Container(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 10,
+                                                            vertical: 7),
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            Colors.green[400]),
+                                                    child: Text(car.status),
+                                                  ),
                                             // Navigator.push(context, MaterialPageRoute(builder: (context)=> UploadTab()));
                                             PopupMenuButton(
-                                                icon: const Icon(
-                                                    Icons.more_vert_outlined),
-                                                itemBuilder: (context) {
-                                                  return CarStatus.values
-                                                      .map((e) => PopupMenuItem(
-                                                          value: e,
-                                                          child: Text(e.name)))
-                                                      .toList();
-                                                })
+                                              itemBuilder: (context) {
+                                                return CarStatus.values
+                                                    .map((e) => PopupMenuItem(
+                                                        value: e,
+                                                        child: Text(e.name)))
+                                                    .toList();
+                                              },
+                                              onSelected: (value) async {
+                                                await onUpdate(
+                                                    status: value,
+                                                    carId: car.carId);
+                                                final snackBar = SnackBar(
+                                                    content: const Text(
+                                                        "Status updated successfully!"));
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(snackBar);
+                                                print(car.status);
+                                                print(car.carId);
+                                                // onUpdate(
+                                                //     status: value,
+                                                //     carId: car.carId);
+                                              },
+                                            )
                                           ],
                                         )),
                                   ),
@@ -146,17 +184,8 @@ class _HomeTabState extends State<HomeTab> {
   }
 }
 
-List<PopupMenuEntry> poplist = <PopupMenuEntry>[
-  const PopupMenuItem(
-    value: 'Status',
-    child: Text('Status'),
-  ),
-  const PopupMenuItem(
-    value: 'Edit Car',
-    child: Text('Edit Car'),
-  ),
-  const PopupMenuItem(
-    value: 'Delete',
-    child: Text('Delete'),
-  )
-];
+Future onUpdate({required CarStatus status, required String carId}) async {
+  final doc = FirebaseFirestore.instance.collection("Cars").doc(carId);
+
+  await doc.update({'status': status.name});
+}
