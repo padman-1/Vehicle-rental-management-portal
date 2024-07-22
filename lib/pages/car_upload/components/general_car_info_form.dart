@@ -1,10 +1,14 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:async';
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:uuid/uuid.dart';
 
 import 'package:vehicle_rental_management_portal/widgets/car_specs_form_textfield.dart';
 import 'package:vehicle_rental_management_portal/widgets/default_paddings.dart';
@@ -15,7 +19,7 @@ class GeneralCarInfoForm extends StatefulWidget {
   late TextEditingController insuranceNumberController;
   late TextEditingController vinNumberController;
   late TextEditingController amountController;
-  String selectedImage;
+  String selectedImageUrl = '';
   GeneralCarInfoForm({
     Key? key,
     required this.brandController,
@@ -23,7 +27,7 @@ class GeneralCarInfoForm extends StatefulWidget {
     required this.insuranceNumberController,
     required this.vinNumberController,
     required this.amountController,
-    required this.selectedImage,
+    required this.selectedImageUrl,
   }) : super(key: key);
 
   @override
@@ -34,15 +38,9 @@ class GeneralCarInfoForm extends StatefulWidget {
 
 class _GeneralCarInfoFormState extends State<GeneralCarInfoForm>
     with AutomaticKeepAliveClientMixin {
-  String _image = '';
+  XFile? _image;
+  late String carImgUrl;
   final _formKey = GlobalKey<FormState>();
-  // late TextEditingController _brandController;
-  // late TextEditingController _vehicleNumberController;
-  // late TextEditingController _insuranceNumberController;
-  // late TextEditingController _vinNumberController;
-  // late TextEditingController _amountController;
-  // late TextEditingController _tankCapacityController;
-  //  late TextEditingController _milleageController;
 
   @override
   void initState() {
@@ -78,14 +76,56 @@ class _GeneralCarInfoFormState extends State<GeneralCarInfoForm>
                 const SizedBox(
                   height: 10,
                 ),
-                _image != ''
-                    ? Container(
-                        height: 150,
-                        width: 200,
-                        decoration: BoxDecoration(
+                _image != null
+                    ? Builder(builder: (context) {
+                        return Container(
+                          height: 150,
+                          width: 200,
+                          decoration: BoxDecoration(
                             image: DecorationImage(
-                                image: FileImage(File(_image)))),
-                      )
+                              image: NetworkImage(_image!.path),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                bottom: 0,
+                                right: 0,
+                                child: Container(
+                                  height: 40,
+                                  width: 40,
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          width: 3,
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor),
+                                      shape: BoxShape.circle,
+                                      color: Theme.of(context).cardColor),
+                                  child: IconButton(
+                                      onPressed: () async {
+                                        _image = await selectImageFromGallery();
+                                        if (_image != null) {
+                                          setState(() {});
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(
+                                                  content: Text(
+                                                      'Please select an image')));
+                                        }
+                                      },
+                                      padding: EdgeInsets.zero,
+                                      icon: Icon(
+                                        Icons.camera_enhance,
+                                        color:
+                                            Theme.of(context).iconTheme.color,
+                                      )),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      })
                     : Container(
                         height: 150,
                         width: 200,
@@ -115,13 +155,9 @@ class _GeneralCarInfoFormState extends State<GeneralCarInfoForm>
                                     color: Theme.of(context).cardColor),
                                 child: IconButton(
                                     onPressed: () async {
-                                      String selectedImage =
-                                          await selectImageFromGallery();
-                                      if (selectedImage != '') {
-                                        // Navigator.pop(context);
-                                        setState(() {
-                                          _image = selectedImage;
-                                        });
+                                      _image = await selectImageFromGallery();
+                                      if (_image != null) {
+                                        setState(() {});
                                       } else {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(const SnackBar(
@@ -195,13 +231,18 @@ class _GeneralCarInfoFormState extends State<GeneralCarInfoForm>
                 ),
                 SizedBox(
                   width: devSize.width / 4,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.blue,
+                  child: GestureDetector(
+                    onTap: () {
+                      Upload();
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.blue,
+                      ),
+                      child: const Center(child: Text('Save')),
                     ),
-                    child: const Center(child: Text('Save')),
                   ),
                 ),
                 const SizedBox(
@@ -213,6 +254,18 @@ class _GeneralCarInfoFormState extends State<GeneralCarInfoForm>
         ),
       ),
     );
+  }
+
+  Future Upload() async {
+    print('test-----' + 'htyfrhtf');
+    final id = const Uuid().v4();
+    final path = 'CarsImg/${id}';
+    final ref = FirebaseStorage.instance.ref().child(path);
+    UploadTask uploadTask = ref.putData(await _image!.readAsBytes(),
+        SettableMetadata(contentType: _image?.mimeType));
+    final snapshot = await uploadTask.whenComplete(() => null);
+    widget.selectedImageUrl = await snapshot.ref.getDownloadURL();
+    print(widget.selectedImageUrl);
   }
 
   @override
@@ -230,11 +283,13 @@ List<DropdownMenuItem<String>> get dropdownItems {
   return menuItems;
 }
 
-selectImageFromGallery() async {
+Future<XFile?> selectImageFromGallery() async {
   XFile? file = await ImagePicker().pickImage(source: ImageSource.gallery);
+  print('${file?.path}');
+  print('${file}');
   if (file != null) {
-    return file.path;
+    return file;
   } else {
-    return '';
+    return null;
   }
 }

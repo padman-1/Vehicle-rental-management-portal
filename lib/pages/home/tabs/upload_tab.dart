@@ -26,6 +26,7 @@ class _UploadTabState extends State<UploadTab>
   final _fuelLevelController = TextEditingController();
   final _milleageController = TextEditingController();
   final _tankCapacityController = TextEditingController();
+  String selectedImageUrl = '';
   bool isloading = false;
 
   @override
@@ -108,7 +109,7 @@ class _UploadTabState extends State<UploadTab>
                     insuranceNumberController: _insuranceNumberController,
                     vinNumberController: _vinNumberController,
                     amountController: _amountController,
-                    selectedImage: '',
+                    selectedImageUrl: selectedImageUrl,
                   ),
 
                   // second tab bar viiew widget
@@ -131,7 +132,7 @@ class _UploadTabState extends State<UploadTab>
                                   "vin": _vinNumberController.text,
                                   "insurance": _insuranceNumberController.text,
                                   "name": '',
-                                  // "imgurl": '',
+                                  "imgurl": selectedImageUrl,
                                   // "descip": description.text,
                                   // "city": location.text,
                                   "amount": _amountController.text,
