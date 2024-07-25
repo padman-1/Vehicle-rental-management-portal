@@ -2,10 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CarSpecsFormTextField extends StatelessWidget {
-  const CarSpecsFormTextField({super.key, required this.hintext,  this.controller, this.maxLines=1,});
+  const CarSpecsFormTextField({
+    super.key,
+    required this.hintext,
+    this.controller,
+    this.maxLines = 1,
+    this.onChanged,
+  });
 
   final String hintext;
-  
+  final ValueChanged<String>? onChanged;
   final int maxLines;
   final TextEditingController? controller;
 
@@ -16,7 +22,6 @@ class CarSpecsFormTextField extends StatelessWidget {
       maxLines: maxLines,
       decoration: InputDecoration(
         hintText: hintext,
-       
       ),
     );
   }
