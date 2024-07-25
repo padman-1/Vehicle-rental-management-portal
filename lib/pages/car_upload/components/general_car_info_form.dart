@@ -7,27 +7,17 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
+import 'package:vehicle_rental_management_portal/pages/car_upload/components/cubit/general_info_cubit.dart';
 
 import 'package:vehicle_rental_management_portal/widgets/car_specs_form_textfield.dart';
 import 'package:vehicle_rental_management_portal/widgets/default_paddings.dart';
 
 class GeneralCarInfoForm extends StatefulWidget {
-  late TextEditingController brandController;
-  late TextEditingController vehicleNumberController;
-  late TextEditingController insuranceNumberController;
-  late TextEditingController vinNumberController;
-  late TextEditingController amountController;
-  String selectedImageUrl = '';
   GeneralCarInfoForm({
     Key? key,
-    required this.brandController,
-    required this.vehicleNumberController,
-    required this.insuranceNumberController,
-    required this.vinNumberController,
-    required this.amountController,
-    required this.selectedImageUrl,
   }) : super(key: key);
 
   @override
@@ -38,6 +28,12 @@ class GeneralCarInfoForm extends StatefulWidget {
 
 class _GeneralCarInfoFormState extends State<GeneralCarInfoForm>
     with AutomaticKeepAliveClientMixin {
+  late TextEditingController brandController;
+  late TextEditingController vehicleNumberController;
+  late TextEditingController insuranceNumberController;
+  late TextEditingController vinNumberController;
+  late TextEditingController amountController;
+  String selectedImageUrl = '';
   XFile? _image;
   late String carImgUrl;
   final _formKey = GlobalKey<FormState>();
@@ -106,7 +102,10 @@ class _GeneralCarInfoFormState extends State<GeneralCarInfoForm>
                                       onPressed: () async {
                                         _image = await selectImageFromGallery();
                                         if (_image != null) {
-                                          setState(() {});
+                                          context
+                                              .read<SpecsInfoCubit>()
+                                              .onImageSelected(
+                                                  File(_image?.path ?? ''));
                                         } else {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(const SnackBar(
@@ -157,7 +156,10 @@ class _GeneralCarInfoFormState extends State<GeneralCarInfoForm>
                                     onPressed: () async {
                                       _image = await selectImageFromGallery();
                                       if (_image != null) {
-                                        setState(() {});
+                                        context
+                                            .read<SpecsInfoCubit>()
+                                            .onImageSelected(
+                                                File(_image?.path ?? ''));
                                       } else {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(const SnackBar(
@@ -201,27 +203,40 @@ class _GeneralCarInfoFormState extends State<GeneralCarInfoForm>
                           const DefaultTextfieldPadding(),
                           CarSpecsFormTextField(
                             hintext: 'Enter the car Brand',
-                            controller: widget.brandController,
+                            controller: brandController,
+                            onChanged:
+                                context.read<SpecsInfoCubit>().onBrandChanged,
                           ),
                           const DefaultTextfieldPadding(),
                           CarSpecsFormTextField(
                             hintext: 'Enter the Vehicle Number',
-                            controller: widget.vehicleNumberController,
+                            controller: vehicleNumberController,
+                            onChanged: context
+                                .read<SpecsInfoCubit>()
+                                .onVehicleNNumberChanged,
                           ),
                           const DefaultTextfieldPadding(),
                           CarSpecsFormTextField(
                             hintext: 'Enter the Insurance Number',
-                            controller: widget.insuranceNumberController,
+                            controller: insuranceNumberController,
+                            onChanged: context
+                                .read<SpecsInfoCubit>()
+                                .onInsuranceNumberChanged,
                           ),
                           const DefaultTextfieldPadding(),
                           CarSpecsFormTextField(
                             hintext: 'Enter the Chassis Number',
-                            controller: widget.vinNumberController,
+                            controller: vinNumberController,
+                            onChanged: context
+                                .read<SpecsInfoCubit>()
+                                .onVinNumberChanged,
                           ),
                           const DefaultTextfieldPadding(),
                           CarSpecsFormTextField(
                             hintext: 'Enter the amount',
-                            controller: widget.amountController,
+                            controller: amountController,
+                            onChanged:
+                                context.read<SpecsInfoCubit>().onAmountChanged,
                           ),
                         ],
                       ),
@@ -233,7 +248,19 @@ class _GeneralCarInfoFormState extends State<GeneralCarInfoForm>
                   width: devSize.width / 4,
                   child: GestureDetector(
                     onTap: () {
-                      Upload();
+                      Future Upload() async {
+                        print('test-----' + 'htyfrhtf');
+                        final id = const Uuid().v4();
+                        final path = 'CarsImg/${id}';
+                        final ref = FirebaseStorage.instance.ref().child(path);
+                        UploadTask uploadTask = ref.putData(
+                            await _image!.readAsBytes(),
+                            SettableMetadata(contentType: _image?.mimeType));
+                        final snapshot =
+                            await uploadTask.whenComplete(() => null);
+                        selectedImageUrl = await snapshot.ref.getDownloadURL();
+                        print(selectedImageUrl);
+                      }
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 10),
@@ -254,18 +281,6 @@ class _GeneralCarInfoFormState extends State<GeneralCarInfoForm>
         ),
       ),
     );
-  }
-
-  Future Upload() async {
-    print('test-----' + 'htyfrhtf');
-    final id = const Uuid().v4();
-    final path = 'CarsImg/${id}';
-    final ref = FirebaseStorage.instance.ref().child(path);
-    UploadTask uploadTask = ref.putData(await _image!.readAsBytes(),
-        SettableMetadata(contentType: _image?.mimeType));
-    final snapshot = await uploadTask.whenComplete(() => null);
-    widget.selectedImageUrl = await snapshot.ref.getDownloadURL();
-    print(widget.selectedImageUrl);
   }
 
   @override
