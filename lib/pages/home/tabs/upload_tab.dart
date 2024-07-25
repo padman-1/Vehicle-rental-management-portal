@@ -1,7 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:uuid/uuid.dart';
 import 'package:vehicle_rental_management_portal/pages/car_upload/components/car_specs_form.dart';
+import 'package:vehicle_rental_management_portal/pages/car_upload/components/cubit/general_info_cubit.dart';
 import 'package:vehicle_rental_management_portal/pages/car_upload/components/general_car_info_form.dart';
 import 'package:vehicle_rental_management_portal/pages/home/cubit/car_cubit/car_cubit.dart';
 
@@ -49,6 +53,9 @@ class _UploadTabState extends State<UploadTab>
   @override
   Widget build(BuildContext context) {
     final devSize = MediaQuery.of(context).size;
+
+    final specsState = context.read<SpecsInfoCubit>().state;
+
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -63,16 +70,6 @@ class _UploadTabState extends State<UploadTab>
         ),
         body: Column(
           children: <Widget>[
-            // // construct the profile details widget here
-            // SizedBox(
-            //   height: 180,
-            //   child: Center(
-            //     child: Text(
-            //       'Profile Details Goes here',
-            //     ),
-            //   ),
-            // ),
-
             // the tab bar with two items
             SizedBox(
               height: 50,
@@ -103,14 +100,7 @@ class _UploadTabState extends State<UploadTab>
                 controller: _tabController,
                 children: [
                   // first tab bar view widget
-                  GeneralCarInfoForm(
-                    brandController: _brandController,
-                    vehicleNumberController: _vehicleNumberController,
-                    insuranceNumberController: _insuranceNumberController,
-                    vinNumberController: _vinNumberController,
-                    amountController: _amountController,
-                    selectedImageUrl: selectedImageUrl,
-                  ),
+                  GeneralCarInfoForm(),
 
                   // second tab bar viiew widget
                   CarSpecsForm(
@@ -120,22 +110,44 @@ class _UploadTabState extends State<UploadTab>
                           ? CircularProgressIndicator()
                           : ElevatedButton(
                               onPressed: () async {
+                                Future Upload() async {
+                                  print('test-----' + 'htyfrhtf');
+                                  final id = const Uuid().v4();
+                                  final path = 'CarsImg/${id}';
+                                  final ref = FirebaseStorage.instance
+                                      .ref()
+                                      .child(path);
+                                  UploadTask uploadTask = ref.putData(
+                                      await specsState.imageFile!.readAsBytes(),
+                                      SettableMetadata(
+                                          contentType:
+                                              specsState.imageFile?.mimeType));
+                                  final snapshot =
+                                      await uploadTask.whenComplete(() => null);
+                                  selectedImageUrl =
+                                      await snapshot.ref.getDownloadURL();
+                                  print(selectedImageUrl);
+                                }
+
                                 var docRef = db.collection("Cars").doc();
                                 final data = ({
-                                  "speed": _carSpeedController.text,
-                                  "tankCapacity": _tankCapacityController.text,
-                                  "fuelLevel": _fuelLevelController.text,
-                                  "engineType": _engineTypeController.text,
-                                  "millage": _milleageController.text,
-                                  "power": _horsePowerController.text,
-                                  "brand": _brandController.text,
-                                  "vin": _vinNumberController.text,
-                                  "insurance": _insuranceNumberController.text,
+                                  "speed": specsState.carSpeedController,
+                                  "tankCapacity":
+                                      specsState.tankCapacityController,
+                                  "fuelLevel": specsState.fuelLevelController,
+                                  "engineType":
+                                      specsState.engineCapacityController,
+                                  "millage": specsState.milleageController,
+                                  "power": specsState.horsePowerController,
+                                  "brand": specsState.brandController,
+                                  "vin": specsState.vinNumberController,
+                                  "insurance":
+                                      specsState.insuranceNumberController,
                                   "name": '',
                                   "imgurl": selectedImageUrl,
                                   // "descip": description.text,
                                   // "city": location.text,
-                                  "amount": _amountController.text,
+                                  "amount": specsState.amountController,
                                   "currency": 'Ghc',
                                   // "dur": '1',
                                   "carid": docRef.id,
@@ -155,13 +167,6 @@ class _UploadTabState extends State<UploadTab>
                                   foregroundColor: Colors.black),
                               child: const Text('Upload')),
                     ),
-                    carSpeedController: _carSpeedController,
-                    engineCapacityController: _engineCapacityController,
-                    horsePowerController: _horsePowerController,
-                    engineTypeController: _engineTypeController,
-                    fuelLevelController: _fuelLevelController,
-                    milleageController: _milleageController,
-                    tankCapacityController: _tankCapacityController,
                   )
                 ],
               ),
