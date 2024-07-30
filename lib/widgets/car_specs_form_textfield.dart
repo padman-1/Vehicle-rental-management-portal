@@ -19,6 +19,7 @@ class CarSpecsFormTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
+      onChanged: onChanged,
       maxLines: maxLines,
       decoration: InputDecoration(
         hintText: hintext,
