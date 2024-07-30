@@ -23,7 +23,8 @@ class SpecsInfoState extends Equatable {
   final String fuelLevelController;
   final String tankCapacityController;
   final String milleageController;
-  final dynamic imageFile;
+  final XFile? imageFile;
+  final SpecsFormState specsFormState;
   const SpecsInfoState({
     required this.brandController,
     required this.vehicleNumberController,
@@ -38,6 +39,7 @@ class SpecsInfoState extends Equatable {
     required this.tankCapacityController,
     required this.milleageController,
     required this.imageFile,
+    required this.specsFormState,
   });
 
   SpecsInfoState copyWith({
@@ -53,7 +55,8 @@ class SpecsInfoState extends Equatable {
     String? fuelLevelController,
     String? tankCapacityController,
     String? milleageController,
-    dynamic imageFile,
+    XFile? imageFile,
+    SpecsFormState? specsFormState,
   }) {
     return SpecsInfoState(
       brandController: brandController ?? this.brandController,
@@ -73,8 +76,12 @@ class SpecsInfoState extends Equatable {
           tankCapacityController ?? this.tankCapacityController,
       milleageController: milleageController ?? this.milleageController,
       imageFile: imageFile ?? this.imageFile,
+      specsFormState: specsFormState ?? this.specsFormState,
     );
   }
+
+  @override
+  bool get stringify => true;
 
   @override
   List get props {
@@ -92,87 +99,9 @@ class SpecsInfoState extends Equatable {
       tankCapacityController,
       milleageController,
       imageFile,
+      specsFormState
     ];
   }
-
-  // Map<String, dynamic> toMap() {
-  //   return <String, dynamic>{
-  //     'brandController': brandController,
-  //     'vehicleNumberController': vehicleNumberController,
-  //     'insuranceNumberController': insuranceNumberController,
-  //     'vinNumberController': vinNumberController,
-  //     'amountController': amountController,
-  //     'carSpeedController': carSpeedController,
-  //     'engineTypeController': engineTypeController,
-  //     'horsePowerController': horsePowerController,
-  //     'engineCapacityController': engineCapacityController,
-  //     'fuelLevelController': fuelLevelController,
-  //     'tankCapacityController': tankCapacityController,
-  //     'milleageController': milleageController,
-  //   };
-  // }
-
-  // factory SpecsInfoState.fromMap(Map<String, dynamic> map) {
-  //   return SpecsInfoState(
-  //     brandController: map['brandController'] as String,
-  //     vehicleNumberController: map['vehicleNumberController'] as String,
-  //     insuranceNumberController: map['insuranceNumberController'] as String,
-  //     vinNumberController: map['vinNumberController'] as String,
-  //     amountController: map['amountController'] as String,
-  //     carSpeedController: map['carSpeedController'] as String,
-  //     engineTypeController: map['engineTypeController'] as String,
-  //     horsePowerController: map['horsePowerController'] as String,
-  //     engineCapacityController: map['engineCapacityController'] as String,
-  //     fuelLevelController: map['fuelLevelController'] as String,
-  //     tankCapacityController: map['tankCapacityController'] as String,
-  //     milleageController: map['milleageController'] as String,
-  //   );
-  // }
-
-  // String toJson() => json.encode(toMap());
-
-  // factory SpecsInfoState.fromJson(String source) => SpecsInfoState.fromMap(json.decode(source) as Map<String, dynamic>);
-
-  @override
-  bool get stringify => true;
-
-  // Map<String, dynamic> toMap() {
-  //   return <String, dynamic>{
-  //     'brandController': brandController,
-  //     'vehicleNumberController': vehicleNumberController,
-  //     'insuranceNumberController': insuranceNumberController,
-  //     'vinNumberController': vinNumberController,
-  //     'amountController': amountController,
-  //     'carSpeedController': carSpeedController,
-  //     'engineTypeController': engineTypeController,
-  //     'horsePowerController': horsePowerController,
-  //     'engineCapacityController': engineCapacityController,
-  //     'fuelLevelController': fuelLevelController,
-  //     'tankCapacityController': tankCapacityController,
-  //     'milleageController': milleageController,
-  //     'imageFile': imageFile?.toMap(),
-  //   };
-  // }
-
-  // factory SpecsInfoState.fromMap(Map<String, dynamic> map) {
-  //   return SpecsInfoState(
-  //     brandController: map['brandController'] as String,
-  //     vehicleNumberController: map['vehicleNumberController'] as String,
-  //     insuranceNumberController: map['insuranceNumberController'] as String,
-  //     vinNumberController: map['vinNumberController'] as String,
-  //     amountController: map['amountController'] as String,
-  //     carSpeedController: map['carSpeedController'] as String,
-  //     engineTypeController: map['engineTypeController'] as String,
-  //     horsePowerController: map['horsePowerController'] as String,
-  //     engineCapacityController: map['engineCapacityController'] as String,
-  //     fuelLevelController: map['fuelLevelController'] as String,
-  //     tankCapacityController: map['tankCapacityController'] as String,
-  //     milleageController: map['milleageController'] as String,
-  //     imageFile: map['imageFile'] != null ? File.fromMap(map['imageFile'] as Map<String,dynamic>) : null,
-  //   );
-  // }
-
-  // String toJson() => json.encode(toMap());
-
-  // factory SpecsInfoState.fromJson(String source) => SpecsInfoState.fromMap(json.decode(source) as Map<String, dynamic>);
 }
+
+enum SpecsFormState { initial, loading, success, failed }

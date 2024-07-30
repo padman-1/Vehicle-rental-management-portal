@@ -1,8 +1,9 @@
-import 'dart:io';
-
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:uuid/uuid.dart';
 
 part 'general_info_state.dart';
 
@@ -22,7 +23,10 @@ class SpecsInfoCubit extends Cubit<SpecsInfoState> {
           tankCapacityController: '',
           milleageController: '',
           imageFile: null,
+          specsFormState: SpecsFormState.initial,
         ));
+
+  var db = FirebaseFirestore.instance;
 
   void onAmountChanged(String amountController) {
     emit(state.copyWith(amountController: amountController));
@@ -72,20 +76,50 @@ class SpecsInfoCubit extends Cubit<SpecsInfoState> {
     emit(state.copyWith(milleageController: milleageController));
   }
 
-  void onImageSelected(File file) {
+  void onImageSelected(XFile file) {
     emit(state.copyWith(imageFile: file));
   }
 
-  // void updateText(String fieldName, String newText) {
-  //   final newState = state.copyWith(
-  //     {
-  //       'brandcontroller': state.brandController,
-  //       'amountController': state.amountController,
-  //       'vehicleNumberController': state.vehicleNumberController,
-  //       'insuranceNumberController': state.insuranceNumberController,
-  //       'vinNumberController': state.vinNumberController,
-  //     }[fieldName] = newText,
-  //   );
-  //   emit(newState);
-  // }
+//  final specsState = context.read<SpecsInfoCubit>().state;
+  Future<void> onSubmit() async {
+    emit(state.copyWith(specsFormState: SpecsFormState.loading));
+    String selectedImageUrl = await Upload(state.imageFile!);
+    var docRef = db.collection("Cars").doc();
+    // print(state);
+    final data = ({
+      "speed": state.carSpeedController,
+      "tankCapacity": state.tankCapacityController,
+      // "fuelLevel": state.fuelLevelController,
+      "engineType": state.engineTypeController,
+      "millage": state.milleageController,
+      "power": state.horsePowerController,
+      "brand": state.brandController,
+      "vin": state.vinNumberController,
+      "insurance": state.insuranceNumberController,
+      // "name": '',
+      "imgurl": selectedImageUrl,
+      // "descip": description.text,
+      // "city": location.text,
+      "amount": state.amountController,
+      "currency": 'Ghc',
+      // "dur": '1',
+      "carid": docRef.id,
+      "status": "checkedIn",
+      // "ownerid": loggeduser.uid
+    });
+    await docRef.set(data);
+    emit(state.copyWith(specsFormState: SpecsFormState.success));
+  }
+
+  Future<String> Upload(XFile image) async {
+    // final specsState = context.read<SpecsInfoCubit>().state;
+
+    final id = const Uuid().v4();
+    final path = 'CarsImg/$id/${image.name}';
+    final ref = FirebaseStorage.instance.ref().child(path);
+    UploadTask uploadTask = ref.putData(await image.readAsBytes(),
+        SettableMetadata(contentType: image.mimeType));
+    final snapshot = await uploadTask.whenComplete(() => null);
+    return await snapshot.ref.getDownloadURL();
+  }
 }

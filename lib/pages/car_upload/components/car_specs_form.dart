@@ -21,21 +21,32 @@ class CarSpecsForm extends StatefulWidget {
 
 class _CarSpecsFormState extends State<CarSpecsForm>
     with AutomaticKeepAliveClientMixin {
-  late TextEditingController _carSpeedController;
-  late TextEditingController _engineTypeController;
-  late TextEditingController _horsePowerController;
-  late TextEditingController _engineCapacityController;
-  late TextEditingController _fuelLevelController;
-  late TextEditingController _tankCapacityController;
-  late TextEditingController _milleageController;
+  final TextEditingController carSpeedController = TextEditingController();
+  final TextEditingController engineTypeController = TextEditingController();
+  final TextEditingController horsePowerController = TextEditingController();
+  final TextEditingController engineCapacityController =
+      TextEditingController();
+  final TextEditingController fuelLevelController = TextEditingController();
+  final TextEditingController tankCapacityController = TextEditingController();
+  final TextEditingController milleageController = TextEditingController();
 
   @override
   void initState() {
+    // carSpeedController = TextEditingController();
+    // engineTypeController = TextEditingController();
+    // horsePowerController = TextEditingController();
+    // tankCapacityController = TextEditingController();
+    // milleageController = TextEditingController();
     super.initState();
   }
 
   @override
   void dispose() {
+    carSpeedController.dispose();
+    engineTypeController.dispose();
+    horsePowerController.dispose();
+    tankCapacityController.dispose();
+    milleageController.dispose();
     super.dispose();
   }
 
@@ -51,38 +62,50 @@ class _CarSpecsFormState extends State<CarSpecsForm>
             child: Form(
               child: Column(
                 children: [
-                  CarSpecsFormTextField(
-                    hintext: 'Enter the Car Speed',
-                    controller: _carSpeedController,
-                    onChanged: context.read<SpecsInfoCubit>().onCarSpeedChanged,
-                  ),
+                  Builder(builder: (context) {
+                    return CarSpecsFormTextField(
+                      hintext: 'Enter the Car Speed',
+                      controller: carSpeedController,
+                      onChanged:
+                          context.read<SpecsInfoCubit>().onCarSpeedChanged,
+                    );
+                  }),
                   const DefaultTextfieldPadding(),
-                  CarSpecsFormTextField(
-                    hintext: 'Enter the Engine Type',
-                    controller: _engineTypeController,
-                    onChanged:
-                        context.read<SpecsInfoCubit>().onEngineTypeChanged,
-                  ),
+                  Builder(builder: (context) {
+                    return CarSpecsFormTextField(
+                      hintext: 'Enter the Engine Type',
+                      controller: engineTypeController,
+                      onChanged:
+                          context.read<SpecsInfoCubit>().onEngineTypeChanged,
+                    );
+                  }),
                   const DefaultTextfieldPadding(),
-                  CarSpecsFormTextField(
-                    hintext: 'Enter the Mileage',
-                    controller: _milleageController,
-                    onChanged: context.read<SpecsInfoCubit>().onMilleageChanged,
-                  ),
+                  Builder(builder: (context) {
+                    return CarSpecsFormTextField(
+                      hintext: 'Enter the Mileage',
+                      controller: milleageController,
+                      onChanged:
+                          context.read<SpecsInfoCubit>().onMilleageChanged,
+                    );
+                  }),
                   const DefaultTextfieldPadding(),
-                  CarSpecsFormTextField(
-                    hintext: 'Enter the Horse power',
-                    controller: _horsePowerController,
-                    onChanged:
-                        context.read<SpecsInfoCubit>().onHorsePowerChanged,
-                  ),
+                  Builder(builder: (context) {
+                    return CarSpecsFormTextField(
+                      hintext: 'Enter the Horse power',
+                      controller: horsePowerController,
+                      onChanged:
+                          context.read<SpecsInfoCubit>().onHorsePowerChanged,
+                    );
+                  }),
                   const DefaultTextfieldPadding(),
-                  CarSpecsFormTextField(
-                    hintext: 'Enter the Tank Capacity',
-                    controller: _tankCapacityController,
-                    onChanged:
-                        context.read<SpecsInfoCubit>().onTankCapacityChanged,
-                  ),
+                  Builder(builder: (context) {
+                    return CarSpecsFormTextField(
+                      hintext: 'Enter the Tank Capacity',
+                      controller: tankCapacityController,
+                      onChanged:
+                          context.read<SpecsInfoCubit>().onTankCapacityChanged,
+                    );
+                  }),
                   const SizedBox(
                     height: 70,
                   ),
